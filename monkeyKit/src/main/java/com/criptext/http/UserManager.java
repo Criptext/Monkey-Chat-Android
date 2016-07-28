@@ -65,6 +65,35 @@ public class UserManager extends AQueryHttp {
 
     }
 
+    public void getInfoById(String monkeyid, final MonkeyJsonResponse monkeyJsonResponse){
+
+        String endpoint = "/info/" + monkeyid;
+
+        //check if it's a group
+        if (monkeyid.contains("G:")) {
+            endpoint = "/group"+endpoint;
+        }else{
+            endpoint = "/user"+endpoint;
+        }
+
+        aq.auth(handle).ajax(MonkeyKitSocketService.Companion.getHttpsURL()+endpoint, JSONObject.class, new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject response, AjaxStatus status) {
+                if (response != null) {
+                    try {
+                        monkeyJsonResponse.OnSuccess(response.getJSONObject("data"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        monkeyJsonResponse.OnError(status);
+                    }
+                }
+                else{
+                    monkeyJsonResponse.OnError(status);
+                }
+            }
+        });
+    }
+
     public void getConversations(String monkeyid, final AsyncConnSocket asyncConnSocket, final MonkeyJsonResponse monkeyJsonResponse){
 
         String urlconnect = MonkeyKitSocketService.Companion.getHttpsURL()+"/user/"+monkeyid+"/conversations";
@@ -92,8 +121,8 @@ public class UserManager extends AQueryHttp {
                                 if (currentMessage.has("props") && !currentMessage.get("props").isJsonNull() && !parser.parse(currentMessage.get("props").getAsString()).isJsonNull())
                                     props = (JsonObject) parser.parse(currentMessage.get("props").getAsString());
 
-                                if (currentMessage.get("type").getAsString().compareTo(MessageTypes.MOKText) == 0
-                                        || currentMessage.get("type").getAsString().compareTo(MessageTypes.MOKFile) == 0) {
+                                if (currentMessage.has("type") && (currentMessage.get("type").getAsString().compareTo(MessageTypes.MOKText) == 0
+                                        || currentMessage.get("type").getAsString().compareTo(MessageTypes.MOKFile) == 0)) {
 
                                     remote = asyncConnSocket.createMOKMessageFromJSON(currentMessage, params, props);
                                     if (remote.getProps().get("encr").getAsString().compareTo("1") == 0)
@@ -155,8 +184,8 @@ public class UserManager extends AQueryHttp {
                                 if (currentMessage.has("props") && !currentMessage.get("props").isJsonNull() && !parser.parse(currentMessage.get("props").getAsString()).isJsonNull())
                                     props = (JsonObject) parser.parse(currentMessage.get("props").getAsString());
 
-                                if (currentMessage.get("type").getAsString().compareTo(MessageTypes.MOKText) == 0
-                                        || currentMessage.get("type").getAsString().compareTo(MessageTypes.MOKFile) == 0) {
+                                if (currentMessage.has("type") && (currentMessage.get("type").getAsString().compareTo(MessageTypes.MOKText) == 0
+                                        || currentMessage.get("type").getAsString().compareTo(MessageTypes.MOKFile) == 0)) {
 
                                     remote = asyncConnSocket.createMOKMessageFromJSON(currentMessage, params, props);
                                     if (remote.getProps().get("encr").getAsString().compareTo("1") == 0)
