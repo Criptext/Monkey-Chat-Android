@@ -372,6 +372,7 @@ public class MainActivity extends MKDelegateActivity implements ChatActivity{
                         public void OnError() {
                             adapter.notifyDataSetChanged();
                         }
+
                     });
         }
     }
@@ -421,7 +422,7 @@ public class MainActivity extends MKDelegateActivity implements ChatActivity{
 
     @Override
     public void onMessageRecieved(MOKMessage message) {
-         processIncomingMessage(message);
+        processIncomingMessage(message);
     }
 
     @Override
@@ -476,7 +477,7 @@ public class MainActivity extends MKDelegateActivity implements ChatActivity{
     }
 
     @Override
-    public void onConversationOpenResponse(String senderId, Boolean isOnline, String lastSeen, String lastOpenMe) {
+    public void onConversationOpenResponse(String senderId, Boolean isOnline, String lastSeen, String lastOpenMe, String members_online) {
 
     }
 

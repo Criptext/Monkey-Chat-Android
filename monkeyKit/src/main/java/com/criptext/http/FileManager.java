@@ -102,7 +102,6 @@ public class FileManager extends AQueryHttp{
                             //message.setFile(file);
 
                             //EXCUTE CALLBACK
-                            Log.d("FileManager", "Download complete");
                             monkeyHttpResponse.OnSuccess();
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -198,18 +197,18 @@ public class FileManager extends AQueryHttp{
             }
         }
 
-    public void resendFile(String fileMessageId){
-        FileMOKMessage fileMOKMessage = pendingFiles.get(fileMessageId);
-        if(fileMOKMessage != null && !fileMOKMessage.failed) {
-            Log.e("FileManager", "File " + fileMessageId + " is already sending!");
-            return;
-        } else if(fileMOKMessage != null){
-            fileMOKMessage.failed = false;
-        }
+        public void resendFile(String fileMessageId){
+            FileMOKMessage fileMOKMessage = pendingFiles.get(fileMessageId);
+            if(fileMOKMessage != null && !fileMOKMessage.failed) {
+                Log.e("FileManager", "File " + fileMessageId + " is already sending!");
+                return;
+            } else if(fileMOKMessage != null){
+                fileMOKMessage.failed = false;
+            }
 
-        sendFileMessagePrivate(fileMOKMessage.message, fileMOKMessage.pushStr,false, fileMOKMessage.isEncrypted);
-    }
-    /**
+            sendFileMessagePrivate(fileMOKMessage.message, fileMOKMessage.pushStr,false, fileMOKMessage.isEncrypted);
+        }
+        /**
          * Envia un archivo a traves de MonkeyKit. Se envia un mensaje por el socket con metadata del archivo
          * y posteriormente el archivo es subido por HTTP al servidor
          * @param newMessage MOKMessage a enviar
@@ -265,11 +264,11 @@ public class FileManager extends AQueryHttp{
                 MonkeyKitSocketService service = serviceRef.get();
                 if(persist && service != null) {
                     service.storeMessage(newMessage, false, new Runnable() {
-                                                        @Override
-                                                        public void run() {
+                        @Override
+                        public void run() {
                             uploadFile(params, newMessage);
-                    }
-                });
+                        }
+                    });
                 }
                 else{
                     uploadFile(params, newMessage);
