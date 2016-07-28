@@ -47,6 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         MonkeyInit mStart = new MonkeyInit(RegisterActivity.this, null,
                 SensitiveData.APP_ID, SensitiveData.APP_KEY, userInfo, ignore_params){
+
             @Override
             public void onSessionOK(String sessionID){
                 SharedPreferences.Editor editor = prefs.edit();
