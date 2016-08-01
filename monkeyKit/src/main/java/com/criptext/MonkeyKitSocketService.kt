@@ -538,8 +538,19 @@ abstract class MonkeyKitSocketService : Service() {
     }
 
     /**
+     * Get all messages of a conversation.
+     * @param monkeyid monkeyid ID of the user.
+     * @param monkeyJsonResponse callback to receive the response.
+     */
+
+    fun getInfoById(monkeyId: String, monkeyJsonResponse: MonkeyJsonResponse){
+        userManager.getInfoById(monkeyId, monkeyJsonResponse)
+    }
+
+    /**
      * Update the metada of a user
      * @param monkeyid monkeyid ID of the user.
+     * @param userInfo JSONObject that contains user data.
      * @param monkeyHttpResponse callback to receive the response.
      */
 
@@ -549,7 +560,6 @@ abstract class MonkeyKitSocketService : Service() {
 
     /**
      * Get all conversation of a user using the monkey ID.
-     * @param monkeyid monkeyid ID of the user.
      * @param monkeyJsonResponse callback to receive the response.
      */
 
